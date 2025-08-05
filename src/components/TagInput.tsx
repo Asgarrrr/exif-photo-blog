@@ -304,7 +304,7 @@ export default function TagInput({
           'group-focus-within:outline-2 ',
           'inline-flex flex-wrap items-center gap-2',
           readOnly && 'cursor-not-allowed',
-          readOnly && 'bg-gray-100 dark:bg-gray-900 dark:text-gray-400',
+          readOnly && 'bg-neutral-100 dark:bg-neutral-900 dark:text-neutral-400',
         )}
       >
         {/* Selected Options */}
@@ -321,8 +321,8 @@ export default function TagInput({
                 'cursor-pointer select-none',
                 'whitespace-nowrap',
                 'px-1.5 py-0.5',
-                'bg-gray-200/60 dark:bg-gray-800',
-                'active:bg-gray-200 dark:active:bg-gray-900',
+                'bg-neutral-200/60 dark:bg-neutral-800',
+                'active:bg-neutral-200 dark:active:bg-neutral-900',
                 'rounded-xs',
               )}
               onClick={() => removeOption(option)}
@@ -395,12 +395,12 @@ export default function TagInput({
                     'px-1.5 py-1 rounded-sm',
                     'text-base select-none',
                     hasReachedLimit ? 'cursor-not-allowed' : 'cursor-pointer',
-                    'hover:bg-gray-100 dark:hover:bg-gray-800',
+                    'hover:bg-neutral-100 dark:hover:bg-neutral-800',
                     !hasReachedLimit &&
-                      'active:bg-gray-50 dark:active:bg-gray-900',
-                    'focus:bg-gray-100 dark:focus:bg-gray-800',
+                      'active:bg-neutral-50 dark:active:bg-neutral-900',
+                    'focus:bg-neutral-100 dark:focus:bg-neutral-800',
                     index === 0 && selectedOptionIndex === undefined &&
-                      'bg-gray-100 dark:bg-gray-800',
+                      'bg-neutral-100 dark:bg-neutral-800',
                     'outline-hidden',
                   )}
                   onClick={() => {

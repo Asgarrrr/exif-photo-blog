@@ -41,7 +41,7 @@ export default function ChecklistGroup({
       href={`#${slug}`}
       className={clsx(
         'inline-flex items-center',
-        'text-gray-600 dark:text-gray-300',
+        'text-neutral-600 dark:text-neutral-300',
         'pt-2',
         'sm:pl-1.5',
         'outline-none',

@@ -39,23 +39,23 @@ export default function Checkbox({
         : props.checked
           ? <span className={clsx(
             BOX_STYLES,
-            'border-transparent dark:border-gray-700',
+            'border-transparent dark:border-neutral-700',
             props.readOnly
-              ? 'bg-gray-300 dark:bg-gray-700'
+              ? 'bg-neutral-300 dark:bg-neutral-700'
               : 'bg-black',
           )}>
             <ImCheckmark
               size={11}
               className={clsx(
                 'text-white',
-                props.readOnly && 'dark:text-gray-400',
+                props.readOnly && 'dark:text-neutral-400',
               )}
             />
           </span>
           : <span className={clsx(
             BOX_STYLES,
-            'bg-gray-100 dark:bg-gray-700/25',
-            'border-gray-300 dark:border-gray-700',
+            'bg-neutral-100 dark:bg-neutral-700/25',
+            'border-neutral-300 dark:border-neutral-700',
           )} />}
       <input
         ref={ref}

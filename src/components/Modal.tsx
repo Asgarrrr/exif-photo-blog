@@ -97,7 +97,7 @@ export default function Modal({
               !noPadding && 'p-2',
               'rounded-xl outline-medium',
               'bg-white dark:bg-black',
-              'shadow-gray-900 shadow-2xl/15',
+              'shadow-neutral-900 shadow-2xl/15',
               'dark:shadow-black dark:shadow-2xl/100',
             ] : [],
             className,

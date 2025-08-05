@@ -4,7 +4,7 @@ import { HTMLAttributes, ReactNode, RefObject } from 'react';
 export default function Container({
   children,
   className,
-  color = 'gray-border',
+  color = 'neutral-border',
   padding = 'normal',
   centered = true,
   spaceChildren = true,
@@ -13,7 +13,7 @@ export default function Container({
   ref?: RefObject<HTMLDivElement | null>
   children: ReactNode
   className?: string
-  color?: 'gray' | 'gray-border' | 'blue' | 'red' | 'yellow'
+  color?: 'neutral' | 'neutral-border' | 'blue' | 'red' | 'yellow'
   padding?:
     'loose' |
     'normal' |
@@ -25,11 +25,11 @@ export default function Container({
 } & HTMLAttributes<HTMLDivElement>) {
   const getColorClasses = () => {
     switch (color) {
-    case 'gray': return [
+    case 'neutral': return [
       'text-medium',
       'bg-dim',
     ];
-    case 'gray-border': return [
+    case 'neutral-border': return [
       'text-medium',
       'bg-extra-dim',
       'border-medium',

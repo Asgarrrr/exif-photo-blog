@@ -52,9 +52,9 @@ export default function ShareModal({
       className={clsx(
         'py-2.5 px-3',
         embedded ? 'border-l' : 'border rounded-md',
-        'border-gray-200 bg-gray-50 active:bg-gray-100',
+        'border-neutral-200 bg-neutral-50 active:bg-neutral-100',
         // eslint-disable-next-line max-len
-        'dark:border-gray-800 dark:bg-gray-900/75 dark:hover:bg-gray-800/75 dark:active:bg-gray-900',
+        'dark:border-neutral-800 dark:bg-neutral-900/75 dark:hover:bg-neutral-800/75 dark:active:bg-neutral-900',
         'cursor-pointer',
       )}
       onClick={action}

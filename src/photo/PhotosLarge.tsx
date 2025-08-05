@@ -9,12 +9,14 @@ export default function PhotosLarge({
   prefetchFirstPhotoLinks,
   onLastPhotoVisible,
   revalidatePhoto,
+  keyPrefix = '',
 }: {
   photos: Photo[]
   animate?: boolean
   prefetchFirstPhotoLinks?: boolean
   onLastPhotoVisible?: () => void
   revalidatePhoto?: RevalidatePhoto
+  keyPrefix?: string
 }) {
   return (
     <AnimateItems
@@ -26,7 +28,7 @@ export default function PhotosLarge({
       staggerOnFirstLoadOnly
       items={photos.map((photo, index) =>
         <PhotoLarge
-          key={photo.id}
+          key={`${keyPrefix}${photo.id}`}
           photo={photo}
           priority={index <= 1}
           prefetchRelatedLinks={prefetchFirstPhotoLinks && index === 0}
@@ -36,7 +38,7 @@ export default function PhotosLarge({
             ? onLastPhotoVisible
             : undefined}
         />)}
-      itemKeys={photos.map(photo => photo.id)}
+      itemKeys={photos.map(photo => `${keyPrefix}${photo.id}`)}
     />
   );
 }

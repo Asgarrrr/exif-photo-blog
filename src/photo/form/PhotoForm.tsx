@@ -290,7 +290,7 @@ export default function PhotoForm({
             src={url}
             className={clsx(
               'border rounded-md overflow-hidden',
-              'border-gray-200 dark:border-gray-700',
+              'border-neutral-200 dark:border-neutral-700',
             )}
             blurDataURL={formData.blurData}
             blurCompatibilityLevel="none"
@@ -307,7 +307,7 @@ export default function PhotoForm({
               'px-1.5 py-1 rounded-[4px]',
               'inline-flex items-center gap-2',
               'bg-white/70 dark:bg-black/60 backdrop-blur-md',
-              'border border-gray-900/10 dark:border-gray-700/70',
+              'border border-neutral-900/10 dark:border-neutral-700/70',
               'select-none',
             )}>
               <Spinner

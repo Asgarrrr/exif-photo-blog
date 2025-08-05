@@ -72,7 +72,7 @@ export default function AdminNavClient({
         <div className="space-y-4">
           <div className={clsx(
             'flex gap-2 pb-3',
-            'border-b border-gray-200 dark:border-gray-800',
+            'border-b border-neutral-200 dark:border-neutral-800',
           )}>
             <MaskedScroll
               className="grow -mx-1 flex gap-0.5 md:gap-1.5"

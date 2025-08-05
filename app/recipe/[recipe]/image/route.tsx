@@ -4,11 +4,13 @@ import {
   MAX_PHOTOS_TO_SHOW_PER_CATEGORY,
 } from '@/image-response';
 import { getIBMPlexMono } from '@/app/font';
-import { ImageResponse } from 'next/og';
 import { getImageResponseCacheControlHeaders } from '@/image-response/cache';
 import { getUniqueRecipes } from '@/photo/db/query';
 import RecipeImageResponse from '@/image-response/RecipeImageResponse';
 import { staticallyGenerateCategoryIfConfigured } from '@/app/static';
+import { safePhotoImageResponse } from '@/platforms/safe-photo-image-response';
+
+export const dynamic = 'force-static';
 
 export const generateStaticParams = staticallyGenerateCategoryIfConfigured(
   'recipes',
@@ -35,14 +37,17 @@ export async function GET(
 
   const { width, height } = IMAGE_OG_DIMENSION_SMALL;
 
-  return new ImageResponse(
-    <RecipeImageResponse {...{
-      recipe,
-      photos,
-      width,
-      height,
-      fontFamily,
-    }}/>,
+  return safePhotoImageResponse(
+    photos,
+    isNextImageReady => (
+      <RecipeImageResponse {...{
+        recipe,
+        photos: isNextImageReady ? photos : [],
+        width,
+        height,
+        fontFamily,
+      }}/>
+    ),
     { width, height, fonts, headers },
   );
 }

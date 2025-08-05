@@ -6,10 +6,12 @@ import {
 } from '@/image-response';
 import CameraImageResponse from '@/image-response/CameraImageResponse';
 import { getIBMPlexMono } from '@/app/font';
-import { ImageResponse } from 'next/og';
 import { getImageResponseCacheControlHeaders } from '@/image-response/cache';
 import { getUniqueCameras } from '@/photo/db/query';
 import { staticallyGenerateCategoryIfConfigured } from '@/app/static';
+import { safePhotoImageResponse } from '@/platforms/safe-photo-image-response';
+
+export const dynamic = 'force-static';
 
 export const generateStaticParams = staticallyGenerateCategoryIfConfigured(
   'cameras',
@@ -39,14 +41,17 @@ export async function GET(
 
   const { width, height } = IMAGE_OG_DIMENSION_SMALL;
 
-  return new ImageResponse(
-    <CameraImageResponse {...{
-      camera,
-      photos,
-      width,
-      height,
-      fontFamily,
-    }}/>,
+  return safePhotoImageResponse(
+    photos,
+    isNextImageReady => (
+      <CameraImageResponse {...{
+        camera,
+        photos: isNextImageReady ? photos : [],
+        width,
+        height,
+        fontFamily,
+      }}/>
+    ),
     { width, height, fonts, headers },
   );
 }

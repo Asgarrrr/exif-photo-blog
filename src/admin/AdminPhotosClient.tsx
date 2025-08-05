@@ -99,7 +99,7 @@ export default function AdminPhotosClient({
           {blobPhotoUrls.length > 0 &&
             <div className={clsx(
               'border-b pb-6',
-              'border-gray-200 dark:border-gray-700',
+              'border-neutral-200 dark:border-neutral-700',
               'space-y-4',
             )}>
               <div className="font-bold">

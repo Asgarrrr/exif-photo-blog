@@ -273,11 +273,11 @@ export default function PhotoLarge({
     // Matte theme colors defined in root layout
     arePhotosMatted && (MATTE_COLOR
       ? 'bg-(--matte-bg)'
-      : 'bg-gray-100'),
+      : 'bg-neutral-100'),
     arePhotosMatted && (MATTE_COLOR_DARK
       ? 'dark:bg-(--matte-bg-dark)'
       // Only specify dark background when MATTE_COLOR is not configured
-      : !MATTE_COLOR && 'dark:bg-gray-700/30'),
+      : !MATTE_COLOR && 'dark:bg-neutral-700/30'),
   );
 
   return (

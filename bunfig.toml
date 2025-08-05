@@ -1,0 +1,51 @@
+# Bun configuration file
+# https://bun.sh/docs/runtime/bunfig
+
+[install]
+# Production dependencies only in production
+production = false
+
+# Auto install peer dependencies
+auto = true
+
+# Registry configuration
+registry = "https://registry.npmjs.org"
+
+# Cache directory
+cache = "node_modules/.cache/bun"
+
+# Lockfile path
+lockfile = "bun.lockb"
+
+# Trusted dependencies that can run scripts
+trustedDependencies = [
+  "@tailwindcss/oxide",
+  "@vercel/speed-insights", 
+  "oxc-resolver",
+  "sharp",
+  "unrs-resolver"
+]
+
+[run]
+# Shell to use for scripts
+shell = "system"
+
+# Environment variables
+env = []
+
+[test]
+# Test runner configuration
+preload = ["./jest.setup.ts"]
+coverage = true
+coverageReporter = ["text", "lcov"]
+
+[build]
+# Build configuration
+target = "node"
+minify = true
+sourcemap = "external"
+
+[dev]
+# Development configuration
+watch = true
+hot = true

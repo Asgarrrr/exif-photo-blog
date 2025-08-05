@@ -37,8 +37,8 @@ export default function HeaderList({
         ? [<div
           key="header"
           className={clsx(
-            'text-gray-900',
-            'dark:text-gray-100',
+            'text-neutral-900',
+            'dark:text-neutral-100',
             'flex items-center mb-1 gap-1',
             'uppercase select-none',
           )}

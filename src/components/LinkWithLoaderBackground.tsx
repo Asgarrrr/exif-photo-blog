@@ -20,7 +20,7 @@ export default function LinkWithLoaderBackground({
         className,
       )}
       loadingClassName={clsx(
-        'bg-gray-200/50 dark:bg-gray-700/50',
+        'bg-neutral-200/50 dark:bg-neutral-700/50',
         loadingClassName,
       )}
     />

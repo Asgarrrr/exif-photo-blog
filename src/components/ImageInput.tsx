@@ -248,8 +248,8 @@ export default function ImageInput({
       <canvas
         ref={canvasRef}
         className={clsx(
-          'bg-gray-50 dark:bg-gray-900/50 rounded-md',
-          'border border-gray-200 dark:border-gray-800',
+          'bg-neutral-50 dark:bg-neutral-900/50 rounded-md',
+          'border border-neutral-200 dark:border-neutral-800',
           'w-[400px]',
           (!image || !debug) && 'hidden',
         )}

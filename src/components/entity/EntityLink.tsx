@@ -103,7 +103,7 @@ export default function EntityLink({
         'inline-flex items-center gap-2 max-w-full truncate',
         classForContrast(),
         path && !badged && contrast !== 'frosted' &&
-          'hover:text-gray-900 dark:hover:text-gray-100',
+          'hover:text-neutral-900 dark:hover:text-neutral-100',
         path && !badged && 'active:text-medium!',
       )}
       isLoading={isLoading}
@@ -144,7 +144,7 @@ export default function EntityLink({
             'text-content',
             truncate && 'inline-flex max-w-full *:truncate',
             'decoration-dotted underline-offset-[4px]',
-            'decoration-gray-300 dark:decoration-gray-600',
+            'decoration-neutral-300 dark:decoration-neutral-600',
           )}>
             {renderLabel}
           </span>}

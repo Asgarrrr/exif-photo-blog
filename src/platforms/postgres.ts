@@ -9,7 +9,11 @@ const pool = new Pool({
       ['sslmode'],
     ),
   },
-  ...POSTGRES_SSL_ENABLED && { ssl: true },
+  ...POSTGRES_SSL_ENABLED && { 
+    ssl: {
+      rejectUnauthorized: process.env.NODE_ENV === 'production',
+    }
+  },
 });
 
 export type Primitive = string | number | boolean | undefined | null;

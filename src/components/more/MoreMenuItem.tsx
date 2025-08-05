@@ -46,8 +46,8 @@ export default function MoreMenuItem({
   const getColorClasses = () => {
     switch (color) {
     case 'grey': return clsx(
-      'hover:bg-gray-100/90 active:bg-gray-200/75',
-      'dark:hover:bg-gray-800/60 dark:active:bg-gray-900/80',
+      'hover:bg-neutral-100/90 active:bg-neutral-200/75',
+      'dark:hover:bg-neutral-800/60 dark:active:bg-neutral-900/80',
     );
     case 'red': return clsx(
       'hover:bg-red-100/50 active:bg-red-100/75',

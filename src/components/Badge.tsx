@@ -23,7 +23,7 @@ export default function Badge({
       return clsx(
         'px-1.5 h-[26px]',
         'rounded-md',
-        'bg-gray-100/40 dark:bg-gray-900/60',
+        'bg-neutral-100/40 dark:bg-neutral-900/60',
         'border border-medium',
       );
     case 'small':
@@ -34,17 +34,17 @@ export default function Badge({
           ? 'text-invert bg-invert'
           : contrast === 'frosted'
             ? 'text-black bg-neutral-100/30 border border-neutral-200/40'
-            : 'text-medium bg-gray-300/30 dark:bg-gray-700/50',
+            : 'text-medium bg-neutral-300/30 dark:bg-neutral-700/50',
         interactive && (contrast === 'high'
           ? 'hover:opacity-70'
           : contrast === 'frosted'
             ? 'hover:text-black dark:hover:text-black'
-            : 'hover:text-gray-900 dark:hover:text-gray-100'),
+            : 'hover:text-neutral-900 dark:hover:text-neutral-100'),
         interactive && (contrast === 'high'
           ? 'active:opacity-90'
           : contrast === 'frosted'
             ? 'active:bg-neutral-100/50 dark:active:bg-neutral-900/10'
-            : 'active:bg-gray-200 dark:active:bg-gray-700/60'),
+            : 'active:bg-neutral-200 dark:active:bg-neutral-700/60'),
       );
     }
   };

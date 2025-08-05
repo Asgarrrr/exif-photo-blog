@@ -716,7 +716,7 @@ export default function CommandKClient({
           'flex items-center justify-center gap-2',
           'py-1 px-4.5',
           'rounded-none bg-transparent',
-          'border-b border-b-gray-400/25 dark:border-b-gray-800',
+          'border-b border-b-neutral-400/25 dark:border-b-neutral-800',
         )}>
           <Command.Input
             ref={refInput}
@@ -730,8 +730,8 @@ export default function CommandKClient({
               'focus:ring-0',
               'border-transparent focus:border-transparent',
               'bg-transparent rounded-none',
-              'placeholder:text-gray-400/80',
-              'dark:placeholder:text-gray-700',
+              'placeholder:text-neutral-400/80',
+              'dark:placeholder:text-neutral-700',
               'focus:outline-hidden',
               isPending && 'opacity-20',
             )}
@@ -749,7 +749,7 @@ export default function CommandKClient({
                   'border-medium shadow-none',
                   queryLiveRaw ? 'px-1' : 'px-1.5',
                   'text-[12px]',
-                  'text-gray-400/90 dark:text-gray-700',
+                  'text-neutral-400/90 dark:text-neutral-700',
                 )}
                 onClick={() => {
                   if (queryLiveRaw) {

@@ -87,7 +87,7 @@ export default function ImageWithFallback({
           }} />
           :  <div className={clsx(
             'w-full h-full',
-            'bg-gray-100/50 dark:bg-gray-900/50',
+            'bg-neutral-100/50 dark:bg-neutral-900/50',
           )} />}
       </div>
     </div>

@@ -21,7 +21,7 @@ export default function AdminLink({
       >
         <span className={clsx(
           'underline underline-offset-4',
-          'decoration-gray-300 dark:decoration-gray-700',
+          'decoration-neutral-300 dark:decoration-neutral-700',
         )}>
           {children}
         </span>

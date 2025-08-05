@@ -57,6 +57,15 @@ If you don't plan to change the code, or don't mind making your updates public, 
 
 💻&nbsp;&nbsp;Local development
 -
+### With Bun (Recommended)
+1. Clone code
+2. Install [Bun](https://bun.sh) if you haven't already
+3. Run `bun install` to install dependencies
+4. If necessary, install [Vercel CLI](https://vercel.com/docs/cli#installing-vercel-cli) and authenticate by running `vercel login`
+5. Run `vercel link` to connect CLI to your project
+6. Run `vercel dev` to start dev server with Vercel-managed environment variables
+
+### With PNPM (Legacy)
 1. Clone code
 2. Run `pnpm i` to install dependencies
 3. If necessary, install [Vercel CLI](https://vercel.com/docs/cli#installing-vercel-cli) and authenticate by running `vercel login`

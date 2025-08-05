@@ -137,7 +137,17 @@ export default function InfinitePhotoScroll({
     }
   }, [isFinished, isLoadingOrValidating, setSize]);
 
-  const photos = useMemo(() => (data ?? [])?.flat(), [data]);
+  const photos = useMemo(() => {
+    const allPhotos = (data ?? [])?.flat();
+    const seen = new Set<string>();
+    return allPhotos.filter(photo => {
+      if (seen.has(photo.id)) {
+        return false;
+      }
+      seen.add(photo.id);
+      return true;
+    });
+  }, [data]);
 
   const revalidatePhoto: RevalidatePhoto = useCallback((
     photoId: string,

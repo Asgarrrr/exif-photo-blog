@@ -24,7 +24,7 @@ export default function SwitcherItemMenu({
         'hover:bg-transparent dark:hover:bg-transparent',
         'active:bg-transparent dark:active:bg-transparent',
         'rounded-none focus:outline-none',
-        'text-gray-400 dark:text-gray-600 hover:text-main',
+        'text-neutral-400 dark:text-neutral-600 hover:text-main',
         classNameButton,
       )}
       classNameButtonOpen={clsx(

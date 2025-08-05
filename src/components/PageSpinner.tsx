@@ -11,7 +11,7 @@ export default function PageSpinner() {
       )}>
         <Spinner
           size={24}
-          color="light-gray"
+          color="light-neutral"
         />
       </div>
     } />

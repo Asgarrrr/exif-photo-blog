@@ -27,8 +27,8 @@ export default function KeyCommand({
           className={clsx(
             'inline-flex items-center justify-center',
             'px-1 h-4 rounded-sm text-xs font-medium',
-            'text-gray-500/90 bg-gray-200/70',
-            'dark:text-gray-300/90 dark:bg-gray-600/50',
+            'text-neutral-500/90 bg-neutral-200/70',
+            'dark:text-neutral-300/90 dark:bg-neutral-600/50',
           )}
         >
           {key === '⌘'

@@ -48,7 +48,7 @@ export default function LabeledIcon({
         <span className={clsx(
           'overflow-hidden',
           uppercase && 'uppercase',
-          debug && 'bg-gray-300 dark:bg-gray-700',
+          debug && 'bg-neutral-300 dark:bg-neutral-700',
         )}>
           {children}
         </span>}

@@ -154,7 +154,7 @@ export default function FieldsetWithStatus({
             </span>
             {note && !error &&
               <ResponsiveText
-                className="text-gray-400 dark:text-gray-600"
+                className="text-neutral-400 dark:text-neutral-600"
                 shortText={`(${noteShort})`}
               >
                 ({note})
@@ -172,7 +172,7 @@ export default function FieldsetWithStatus({
                 {error}
               </span>}
             {required &&
-              <span className="text-gray-400 dark:text-gray-600">
+              <span className="text-neutral-400 dark:text-neutral-600">
                 Required
               </span>}
             {loading && type !== 'checkbox' &&

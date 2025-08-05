@@ -15,7 +15,7 @@ export default function ToasterWithThemes() {
             'flex items-center gap-x-1.5 p-4 w-full',
             'font-mono text-sm',
             'bg-white dark:bg-black',
-            'text-gray-900 dark:text-gray-100',
+            'text-neutral-900 dark:text-neutral-100',
             'outline-medium! outline-offset-[-1px]',
           ),
         },

@@ -85,7 +85,7 @@ export default function EntityHover({
         gridClass,
         'transition-opacity duration-300',
         photos ? 'opacity-0' : 'opacity-100',
-        'bg-gray-100 dark:bg-gray-900',
+        'bg-neutral-100 dark:bg-neutral-900',
       )}>
         {Array.from({ length: photosToShow }).map((_, index) =>
           <div

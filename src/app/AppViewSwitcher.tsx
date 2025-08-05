@@ -1,4 +1,5 @@
 import Switcher from '@/components/switcher/Switcher';
+import { LuGalleryVertical } from 'react-icons/lu';
 import SwitcherItem from '@/components/switcher/SwitcherItem';
 import IconFull from '@/components/icons/IconFull';
 import IconGrid from '@/components/icons/IconGrid';
@@ -103,18 +104,21 @@ export default function AppViewSwitcher({
   const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
   const [isAdminMenuOpen, setIsAdminMenuOpen] = useState(false);
 
-  const renderItemFull =
-    <SwitcherItem
-      icon={<IconFull includeTitle={false} />}
-      href={pathFull}
-      hrefRef={refHrefFull}
-      active={currentSelection === 'full'}
-      tooltip={{...SHOW_KEYBOARD_SHORTCUT_TOOLTIPS && {
-        content: appText.nav.full,
-        keyCommand: KEY_COMMANDS.full,
-      }}}
-      noPadding
-    />;
+  const renderItemFull = (
+		<SwitcherItem
+			icon={<LuGalleryVertical />}
+			href={pathFull}
+			hrefRef={refHrefFull}
+			active={currentSelection === "full"}
+			tooltip={{
+				...(SHOW_KEYBOARD_SHORTCUT_TOOLTIPS && {
+					content: appText.nav.full,
+					keyCommand: KEY_COMMANDS.full,
+				}),
+			}}
+			noPadding
+		/>
+	);
 
   const renderItemGrid =
     <SwitcherItem

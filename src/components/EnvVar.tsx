@@ -31,8 +31,8 @@ export default function EnvVar({
         <span className={clsx(
           'px-1.5 rounded-md',
           'text-[11px] font-medium tracking-wider',
-          'text-gray-600 dark:text-gray-300',
-          'bg-gray-100 dark:bg-gray-800',
+          'text-neutral-600 dark:text-neutral-300',
+          'bg-neutral-100 dark:bg-neutral-800',
           'whitespace-nowrap',
         )}>
           {variable}{value && ` = ${value}`}

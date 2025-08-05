@@ -72,7 +72,7 @@ export default function PhotoLink({
           {children}
         </LinkWithLoaderBackground>
       : <span className={clsx(
-        'text-gray-300 dark:text-gray-700 cursor-default',
+        'text-neutral-300 dark:text-neutral-700 cursor-default',
         className,
       )}>
         {children}

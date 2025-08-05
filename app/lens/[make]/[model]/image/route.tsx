@@ -4,7 +4,6 @@ import {
   MAX_PHOTOS_TO_SHOW_PER_CATEGORY,
 } from '@/image-response';
 import { getIBMPlexMono } from '@/app/font';
-import { ImageResponse } from 'next/og';
 import { getImageResponseCacheControlHeaders } from '@/image-response/cache';
 import { getUniqueLenses } from '@/photo/db/query';
 import {
@@ -14,6 +13,9 @@ import {
 } from '@/lens';
 import LensImageResponse from '@/image-response/LensImageResponse';
 import { staticallyGenerateCategoryIfConfigured } from '@/app/static';
+import { safePhotoImageResponse } from '@/platforms/safe-photo-image-response';
+
+export const dynamic = 'force-static';
 
 export const generateStaticParams = staticallyGenerateCategoryIfConfigured(
   'lenses',
@@ -43,14 +45,17 @@ export async function GET(
 
   const { width, height } = IMAGE_OG_DIMENSION_SMALL;
 
-  return new ImageResponse(
-    <LensImageResponse {...{
-      lens,
-      photos,
-      width,
-      height,
-      fontFamily,
-    }}/>,
+  return safePhotoImageResponse(
+    photos,
+    isNextImageReady => (
+      <LensImageResponse {...{
+        lens,
+        photos: isNextImageReady ? photos : [],
+        width,
+        height,
+        fontFamily,
+      }}/>
+    ),
     { width, height, fonts, headers },
   );
 }

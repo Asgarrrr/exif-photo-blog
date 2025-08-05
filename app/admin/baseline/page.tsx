@@ -227,7 +227,7 @@ export default function ComponentsPage() {
             </div>
           </div>
           <div className={clsx(
-            debugComponents && '*:bg-gray-300 dark:*:bg-gray-700',
+            debugComponents && '*:bg-neutral-300 dark:*:bg-neutral-700',
             '*:flex',
           )}>
             {DEBUG_LINES.map((_, i) =>
@@ -237,7 +237,7 @@ export default function ComponentsPage() {
             )}
           </div>
           <div className={clsx(
-            debugComponents && '*:bg-gray-300 dark:*:bg-gray-700',
+            debugComponents && '*:bg-neutral-300 dark:*:bg-neutral-700',
             '*:flex',
           )}>
             {DEBUG_LINES.map((_, i) =>

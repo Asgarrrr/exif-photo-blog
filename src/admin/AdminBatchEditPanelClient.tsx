@@ -172,12 +172,12 @@ export default function AdminBatchEditPanelClient({
       contentMain={<div className="flex flex-col gap-2">
         <Note
           ref={refNote}
-          color="gray"
+          color="neutral"
           className={clsx(
             'min-h-[3.5rem] pr-2',
             'backdrop-blur-lg border-transparent!',
-            'text-gray-900! dark:text-gray-100!',
-            'bg-gray-100/90! dark:bg-gray-900/70!',
+            'text-neutral-900! dark:text-neutral-100!',
+            'bg-neutral-100/90! dark:bg-neutral-900/70!',
             // Override default <Note /> content spacing
             '[&>*>*:first-child]:gap-1.5 sm:[&>*>*:first-child]:gap-2.5',
           )}

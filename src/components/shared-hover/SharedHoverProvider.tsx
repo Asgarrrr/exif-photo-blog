@@ -154,7 +154,7 @@ export default function SharedHoverProvider({
                     'absolute inset-0',
                     'rounded-[0.25rem]',
                     hoverProps.color === 'frosted'
-                      ? 'border border-gray-400/25'
+                      ? 'border border-neutral-400/25'
                       : 'border-medium',
                   )} />
                 </div>

@@ -30,7 +30,7 @@ export default async function PhotosEmptyState() {
           />
           <div className={clsx(
             'font-bold text-2xl',
-            'text-gray-700 dark:text-gray-200',
+            'text-neutral-700 dark:text-neutral-200',
           )}>
             {!IS_SITE_READY
               ? appText.onboarding.setupIncomplete

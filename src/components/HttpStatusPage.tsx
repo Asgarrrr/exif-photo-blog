@@ -19,7 +19,7 @@ export default function HttpStatusPage({
       )}>
         <h1 className={clsx(
           'text-[100px] sm:text-[120px] leading-none',
-          'text-gray-800 dark:text-gray-200',
+          'text-neutral-800 dark:text-neutral-200',
         )}>
           {status}
         </h1>

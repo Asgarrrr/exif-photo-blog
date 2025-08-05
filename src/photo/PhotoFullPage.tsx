@@ -17,17 +17,23 @@ export default function PhotoFullPage({
   sortBy: SortBy
   sortWithPriority: boolean
 }) {
+  // Create a set of initial photo IDs to prevent duplicates in infinite scroll
+  const initialPhotoIds = new Set(photos.map(photo => photo.id));
+
   return (
     <div className="space-y-1">
       <PhotosLarge {...{ photos }} />
       {photosCount > photos.length &&
-        <PhotosLargeInfinite
-          initialOffset={photos.length}
-          itemsPerPage={INFINITE_SCROLL_FULL_MULTIPLE}
-          sortBy={sortBy}
-          sortWithPriority={sortWithPriority}
-          excludeFromFeeds
-        />}
+        <div key="infinite-scroll">
+          <PhotosLargeInfinite
+            initialOffset={photos.length}
+            itemsPerPage={INFINITE_SCROLL_FULL_MULTIPLE}
+            sortBy={sortBy}
+            sortWithPriority={sortWithPriority}
+            excludeFromFeeds
+            excludePhotoIds={initialPhotoIds}
+          />
+        </div>}
     </div>
   );
 }

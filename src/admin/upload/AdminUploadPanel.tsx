@@ -32,7 +32,7 @@ export default function AdminUploadPanel({
       )}
       contentMain={
         <Container
-          color="gray"
+          color="neutral"
           padding="tight"
           className="p-2! pl-4! text-main!"
         >

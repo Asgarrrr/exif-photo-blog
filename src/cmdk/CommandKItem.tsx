@@ -32,14 +32,14 @@ export default function CommandKItem({
         'px-2',
         accessory ? 'py-2' : 'py-1',
         'rounded-md cursor-pointer tracking-wide',
-        'active:bg-gray-200/75! dark:active:bg-gray-800/55!',
+        'active:bg-neutral-200/75! dark:active:bg-neutral-800/55!',
         ...loading
           ? [
-            'dark:data-[selected=true]:bg-gray-900/50',
-            'data-[selected=true]:bg-gray-100/50',
+            'dark:data-[selected=true]:bg-neutral-900/50',
+            'data-[selected=true]:bg-neutral-100/50',
           ] : [
-            'dark:data-[selected=true]:bg-gray-900/75',
-            'data-[selected=true]:bg-gray-100',
+            'dark:data-[selected=true]:bg-neutral-900/75',
+            'data-[selected=true]:bg-neutral-100',
           ],
         disabled && 'opacity-15',
       )}

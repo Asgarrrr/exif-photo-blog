@@ -5,7 +5,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch --transformIgnorePatterns 'node_modules/(?!my-library-dir)/'",
+    "test": "bun test --watch",
+    "test:jest": "bun jest --watch --transformIgnorePatterns 'node_modules/(?!my-library-dir)/'",
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
@@ -77,13 +78,16 @@
     "ts-node": "^10.9.2",
     "typescript": "5.9.2"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
+  "bun": {
+    "trustedDependencies": [
       "@tailwindcss/oxide",
       "@vercel/speed-insights",
       "oxc-resolver",
       "sharp",
       "unrs-resolver"
     ]
+  },
+  "engines": {
+    "bun": ">=1.0.0"
   }
 }

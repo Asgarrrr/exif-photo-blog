@@ -6,10 +6,12 @@ import {
 import YearImageResponse from
   '@/image-response/YearImageResponse';
 import { getIBMPlexMono } from '@/app/font';
-import { ImageResponse } from 'next/og';
 import { getImageResponseCacheControlHeaders } from '@/image-response/cache';
 import { getUniqueYears } from '@/photo/db/query';
 import { staticallyGenerateCategoryIfConfigured } from '@/app/static';
+import { safePhotoImageResponse } from '@/platforms/safe-photo-image-response';
+
+export const dynamic = 'force-static';
 
 export const generateStaticParams = staticallyGenerateCategoryIfConfigured(
   'years',
@@ -39,14 +41,17 @@ export async function GET(
 
   const { width, height } = IMAGE_OG_DIMENSION_SMALL;
 
-  return new ImageResponse(
-    <YearImageResponse {...{
-      year,
-      photos,
-      width,
-      height,
-      fontFamily,
-    }}/>,
+  return safePhotoImageResponse(
+    photos,
+    isNextImageReady => (
+      <YearImageResponse {...{
+        year,
+        photos: isNextImageReady ? photos : [],
+        width,
+        height,
+        fontFamily,
+      }}/>
+    ),
     { width, height, fonts, headers },
   );
 } 

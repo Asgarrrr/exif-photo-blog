@@ -5,10 +5,12 @@ import {
 } from '@/image-response';
 import TagImageResponse from '@/image-response/TagImageResponse';
 import { getIBMPlexMono } from '@/app/font';
-import { ImageResponse } from 'next/og';
 import { getImageResponseCacheControlHeaders } from '@/image-response/cache';
 import { getUniqueTags } from '@/photo/db/query';
 import { staticallyGenerateCategoryIfConfigured } from '@/app/static';
+import { safePhotoImageResponse } from '@/platforms/safe-photo-image-response';
+
+export const dynamic = 'force-static';
 
 export const generateStaticParams = staticallyGenerateCategoryIfConfigured(
   'tags',
@@ -35,14 +37,17 @@ export async function GET(
 
   const { width, height } = IMAGE_OG_DIMENSION_SMALL;
 
-  return new ImageResponse(
-    <TagImageResponse {...{
-      tag,
-      photos,
-      width,
-      height,
-      fontFamily,
-    }}/>,
+  return safePhotoImageResponse(
+    photos,
+    isNextImageReady => (
+      <TagImageResponse {...{
+        tag,
+        photos: isNextImageReady ? photos : [],
+        width,
+        height,
+        fontFamily,
+      }}/>
+    ),
     { width, height, fonts, headers },
   );
 }

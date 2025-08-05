@@ -25,7 +25,7 @@ export default function CopyButton({
       {...props}
       icon={<BiCopy size={iconSize} />}
       className={clsx(
-        subtle && 'text-gray-300 dark:text-gray-700',
+        subtle && 'text-neutral-300 dark:text-neutral-700',
         className,
       )}
       onClick={text

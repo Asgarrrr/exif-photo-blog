@@ -23,7 +23,7 @@ export default function Icon({
       'sm:h-[1rem] *:translate-y-[2.5px]',
       wide ? 'w-[28px]' : 'w-[14px]',
       'inline-flex items-center justify-center',
-      debug && 'bg-gray-300 dark:bg-gray-700',
+      debug && 'bg-neutral-300 dark:bg-neutral-700',
       className,
     )}>
       {loading
