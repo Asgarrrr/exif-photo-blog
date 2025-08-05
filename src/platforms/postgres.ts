@@ -11,7 +11,7 @@ const pool = new Pool({
   },
   ...POSTGRES_SSL_ENABLED && { 
     ssl: {
-      rejectUnauthorized: process.env.NODE_ENV === 'production',
+      rejectUnauthorized: false,
     }
   },
 });
