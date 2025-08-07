@@ -81,6 +81,7 @@ export default function SwitcherItem({
         {...tooltip}
         classNameTrigger={widthClass}
         delayDuration={500}
+        
       >
         {content}
       </Tooltip>

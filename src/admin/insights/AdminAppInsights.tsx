@@ -9,7 +9,7 @@ import {
   getPhotosInNeedOfUpdateCount,
 } from '@/photo/db/query';
 import AdminAppInsightsClient from './AdminAppInsightsClient';
-import { getAllInsights, getGitHubMetaForCurrentApp } from '.';
+import { getAllInsights } from '.';
 
 export default async function AdminAppInsights() {
   const [
@@ -17,7 +17,6 @@ export default async function AdminAppInsights() {
     { count: photosCountHidden },
     photosCountNeedSync,
     { count: photosCountPortrait },
-    codeMeta,
     cameras,
     lenses,
     tags,
@@ -29,7 +28,6 @@ export default async function AdminAppInsights() {
     getPhotosMeta({ hidden: 'only' }),
     getPhotosInNeedOfUpdateCount(),
     getPhotosMeta({ maximumAspectRatio: 0.9 }),
-    getGitHubMetaForCurrentApp(),
     getUniqueCameras(),
     getUniqueLenses(),
     getUniqueTags(),
@@ -40,9 +38,7 @@ export default async function AdminAppInsights() {
 
   return (
     <AdminAppInsightsClient
-      codeMeta={codeMeta}
       insights={getAllInsights({
-        codeMeta,
         photosCount,
         photosCountNeedSync,
         photosCountPortrait,

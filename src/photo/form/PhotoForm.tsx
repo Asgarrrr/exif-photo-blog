@@ -326,15 +326,24 @@ export default function PhotoForm({
       {formActionErrorMessage &&
         <ErrorNote>{formActionErrorMessage}</ErrorNote>}
       <form
-        action={data => (type === 'create'
-          ? createPhotoAction
-          : updatePhotoAction
-        )(data)
-          .catch(e => {
-            if (e.message !== 'NEXT_REDIRECT') {
-              setFormActionErrorMessage(e.message);
+        action={data => {
+          // FIX: Synchroniser les données React avec FormData
+          Object.entries(formData).forEach(([key, value]) => {
+            if (value !== undefined && value !== null) {
+              data.set(key, String(value));
             }
-          })}
+          });
+
+          return (type === 'create'
+            ? createPhotoAction
+            : updatePhotoAction
+          )(data)
+            .catch(e => {
+              if (e.message !== 'NEXT_REDIRECT') {
+                setFormActionErrorMessage(e.message);
+              }
+            });
+        }}
         onSubmit={() => {
           setFormActionErrorMessage('');
           (document.activeElement as HTMLElement)?.blur?.();
@@ -511,8 +520,8 @@ export default function PhotoForm({
             'absolute -top-16 -left-2 right-0 bottom-0 -z-10',
             'pointer-events-none',
             'bg-linear-to-t',
-            'from-white/90 from-60%',
-            'dark:from-black/90 dark:from-50%',
+            'from-neutral-100/90 from-60%',
+            'dark:from-neutral-950/90 dark:from-50%',
           )} />
         </div>
       </form>

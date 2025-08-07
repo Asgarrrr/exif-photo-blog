@@ -4,6 +4,7 @@
 
 @import './src/css/sonner.css';
 @import './src/css/viewerjs.css';
+@import "tw-animate-css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -16,12 +17,16 @@
 }
 
 html {
-  /* Necessary for nextjs scroll restoration */
   min-height: 100%;
+  scrollbar-gutter: stable;
 }
+ 
 
 @theme {
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+ 
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  /* --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; */
 
   --breakpoint-xs: 24.5rem;
   --breakpoint-3xl: 102rem;
@@ -162,7 +167,7 @@ html {
 /* Background */
 @utility bg-main {
   @apply
-    bg-white dark:bg-black
+    bg-neutral-100 dark:bg-neutral-950
 }
 @utility bg-medium {
   @apply
@@ -183,7 +188,7 @@ html {
 }
 @utility bg-invert {
   @apply
-    bg-neutral-900 dark:bg-neutral-100
+    bg-neutral-100 dark:bg-neutral-100
 }
 /* Baseline Grid */
 @utility space-y-baseline {
@@ -245,9 +250,10 @@ html {
   }
   input[type=text], input[type=email], input[type=password], select, textarea {
     @apply
-      text-[1rem] /* Prevent iOS auto-zoom behavior */
-      read-only:cursor-default
-      outline-blue-600 ring-blue-600 appearance-none
+       /* Prevent iOS auto-zoom behavior */
+       /* text-[1rem] */
+      read-only:cursor-not-allowed
+       appearance-none
       focus:outline-2 -outline-offset-2 focus:ring-0
   }
   input[type=text], input[type=email], input[type=password], select {

@@ -14,7 +14,6 @@ import {
   getPhotosInNeedOfUpdateCount,
 } from '@/photo/db/query';
 import {
-  getGitHubMetaForCurrentApp,
   indicatorStatusForSignificantInsights,
 } from './insights';
 
@@ -26,7 +25,6 @@ export const getAdminDataAction = async () =>
       photosCount,
       photosCountHidden,
       photosCountNeedSync,
-      codeMeta,
       uploadsCount,
       tagsCount,
       recipesCount,
@@ -38,7 +36,6 @@ export const getAdminDataAction = async () =>
         .then(({ count }) => count)
         .catch(() => 0),
       getPhotosInNeedOfUpdateCount(),
-      getGitHubMetaForCurrentApp(),
       getStorageUploadUrlsNoStore()
         .then(urls => urls.length)
         .catch(e => {
@@ -54,7 +51,6 @@ export const getAdminDataAction = async () =>
     ]);
 
     const insightsIndicatorStatus = indicatorStatusForSignificantInsights({
-      codeMeta,
       photosCountNeedSync,
     });
 

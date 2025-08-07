@@ -50,6 +50,7 @@ import { TAG_FAVS, isPhotoFav, isTagFavs } from '@/tag';
 import { convertPhotoToPhotoDbInsert, Photo } from '.';
 import { runAuthenticatedAdminServerAction } from '@/auth/server';
 import { AiImageQuery, getAiImageQuery } from './ai';
+import { APP_LOCALE } from '@/app/config';
 import { streamOpenAiImageQuery } from '@/platforms/openai';
 import {
   AI_TEXT_AUTO_GENERATED_FIELDS,
@@ -590,7 +591,7 @@ export const streamAiImageQueryAction = async (
     const existingTags = await getUniqueTags();
     return streamOpenAiImageQuery(
       imageBase64,
-      getAiImageQuery(query, existingTags, existingTitle),
+      getAiImageQuery(query, existingTags, existingTitle, APP_LOCALE),
     );
   });
 

@@ -1,19 +1,26 @@
 'use client';
 
-import { InputHTMLAttributes, useRef, RefObject, ReactNode } from 'react';
+import { RefObject, ReactNode } from 'react';
 import { useFormStatus } from 'react-dom';
-import Spinner from './Spinner';
-import { clsx } from 'clsx/lite';
+import { cn } from '@/lib/utils';
 import { FieldSetType, AnnotatedTag } from '@/photo/form';
-import TagInput from './TagInput';
 import { parameterize } from '@/utility/string';
-import Checkbox from './Checkbox';
+
+// shadcn/ui components
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Textarea } from '@/components/ui/textarea';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+
+// Custom components (keeping existing ones for now)
+import Spinner from './Spinner';
+import TagInput from './TagInput';
 import ResponsiveText from './primitives/ResponsiveText';
-import Tooltip from './Tooltip';
 import { SelectMenuOptionType } from './SelectMenuOption';
 import SelectMenu from './SelectMenu';
 
-export default function FieldsetWithStatus({
+export default function FieldsetWithStatusShadcn({
   id: _id,
   label,
   icon,
@@ -39,7 +46,7 @@ export default function FieldsetWithStatus({
   spellCheck,
   capitalize,
   type = 'text',
-  inputRef: inputRefProp,
+  inputRef,
   accessory,
   hideLabel,
   tabIndex,
@@ -70,176 +77,188 @@ export default function FieldsetWithStatus({
   capitalize?: boolean
   type?: FieldSetType
   inputRef?: RefObject<HTMLInputElement | null>
-  accessory?: React.ReactNode
+  accessory?: ReactNode
   hideLabel?: boolean
   tabIndex?: number
 }) {
-  const inputRefInternal = useRef<HTMLInputElement>(null);
-
-  const inputRef = inputRefProp ?? inputRefInternal;
-
   const id = _id || parameterize(label);
-
   const { pending } = useFormStatus();
 
-  const inputProps: InputHTMLAttributes<HTMLInputElement> = {
-    id,
-    name: id,
-    type,
-    value,
-    checked: type === 'checkbox'
-      ? value === 'true' ? true : false
-      : undefined,
-    placeholder,
-    onChange: e => onChange?.(type === 'checkbox'
-      ? e.target.value === 'true' ? 'false' : 'true'
-      : e.target.value),
-    spellCheck,
-    autoComplete: 'off',
-    autoCapitalize: !capitalize ? 'off' : undefined,
-    readOnly: readOnly || pending || loading,
-    disabled: type === 'checkbox' && (
-      readOnly || pending || loading
-    ),
-    className: clsx(
-      (
-        type === 'text' ||
-        type === 'email' ||
-        type === 'password'
-      ) && 'w-full',
-      type === 'checkbox' && (
-        readOnly || pending || loading
-      ) && 'opacity-50 cursor-not-allowed',
-      Boolean(error) && 'error',
-    ),
-    tabIndex,
-  };
+  const isDisabled = readOnly || pending || loading;
+  const hasError = Boolean(error);
+
+  // Helper to render the label content
+  const renderLabelContent = () => (
+    <div className="flex items-center gap-1.5 flex-wrap">
+      <div className="flex items-center gap-1.5">
+        {icon && (
+          <span className="inline-flex items-center justify-center w-4 h-4 shrink-0">
+            {icon}
+          </span>
+        )}
+        <span className="truncate">{label}</span>
+        {tooltip && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="inline-flex text-muted-foreground">ⓘ</span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{tooltip}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+      </div>
+      
+      {note && !error && (
+        <ResponsiveText
+          className="text-muted-foreground"
+          shortText={`(${noteShort})`}
+        >
+          ({note})
+        </ResponsiveText>
+      )}
+      
+      {noteComplex}
+      
+      {isModified && !error && (
+        <span className="text-primary font-medium text-sm">*</span>
+      )}
+      
+      {error && (
+        <span className="text-destructive text-sm">{error}</span>
+      )}
+      
+      {required && (
+        <span className="text-muted-foreground text-sm">Required</span>
+      )}
+      
+      {loading && type !== 'checkbox' && (
+        <Spinner />
+      )}
+    </div>
+  );
+
+  // Hidden input
+  if (type === 'hidden') {
+    return (
+      <Input
+        ref={inputRef}
+        type="hidden"
+        id={id}
+        name={id}
+        value={value}
+        onChange={e => onChange?.(e.target.value)}
+      />
+    );
+  }
 
   return (
-    type === 'hidden'
-      ? <input ref={inputRef} {...inputProps} />
-      : <div className={clsx(
-        // For managing checkbox active state
-        'group',
-        'space-y-1',
-        type === 'checkbox' && 'flex items-center gap-2',
-        className,
-      )}>
-        {!hideLabel &&
-          <label
-            htmlFor={id}
-            className={clsx(
-              'inline-flex flex-wrap gap-x-2 items-center select-none',
-              type === 'checkbox' && 'order-2 m-0 translate-y-[0.25px]',
-              type === 'checkbox' && readOnly &&
-                'opacity-50 cursor-not-allowed',
+    <div className={cn(
+      'space-y-2',
+      type === 'checkbox' && 'flex items-start gap-3 space-y-0',
+      className,
+    )}>
+      {!hideLabel && (
+        <Label
+          htmlFor={id}
+          className={cn(
+            type === 'checkbox' && 'order-2 mt-0 cursor-pointer',
+            isDisabled && 'opacity-50 cursor-not-allowed',
+          )}
+        >
+          {renderLabelContent()}
+        </Label>
+      )}
+
+      <div className="flex gap-2">
+        {/* Select Menu */}
+        {selectOptions ? (
+          <SelectMenu
+            id={id}
+            name={id}
+            tabIndex={tabIndex}
+            className="w-full"
+            value={value}
+            onChange={onChange}
+            options={selectOptions}
+            defaultOptionLabel={selectOptionsDefaultLabel}
+            error={error}
+            readOnly={isDisabled}
+          />
+        ) : /* Tag Input */
+        tagOptions ? (
+          <TagInput
+            id={id}
+            name={id}
+            value={value}
+            options={tagOptions}
+            defaultIcon={tagOptionsDefaultIcon}
+            onChange={onChange}
+            showMenuOnDelete={tagOptionsLimit === 1}
+            className={cn(hasError && 'border-destructive')}
+            readOnly={isDisabled}
+            placeholder={placeholder}
+            limit={tagOptionsLimit}
+            limitValidationMessage={tagOptionsLimitValidationMessage}
+          />
+        ) : /* Textarea */
+        type === 'textarea' ? (
+          <Textarea
+            id={id}
+            name={id}
+            value={value}
+            placeholder={placeholder}
+            onChange={e => onChange?.(e.target.value)}
+            disabled={isDisabled}
+            className={cn(
+              'min-h-24 resize-none',
+              hasError && 'border-destructive',
             )}
-          >
-            <span className="inline-flex items-center gap-x-[5px]">
-              {icon &&
-                <span className={clsx(
-                  'inline-flex items-center justify-center w-4 shrink-0',
-                )}>
-                  {icon}
-                </span>}
-              <span className="truncate">
-                {label}
-              </span>
-              {tooltip &&
-                <Tooltip
-                  content={tooltip}
-                  classNameTrigger="translate-y-[-1.5px] text-dim"
-                  supportMobile
-                />}
-            </span>
-            {note && !error &&
-              <ResponsiveText
-                className="text-neutral-400 dark:text-neutral-600"
-                shortText={`(${noteShort})`}
-              >
-                ({note})
-              </ResponsiveText>}
-            {noteComplex}
-            {isModified && !error &&
-              <span className={clsx(
-                'text-main font-medium text-[0.9rem]',
-                ' -ml-1.5 translate-y-[-1px]',
-              )}>
-                *
-              </span>}
-            {error &&
-              <span className="text-error">
-                {error}
-              </span>}
-            {required &&
-              <span className="text-neutral-400 dark:text-neutral-600">
-                Required
-              </span>}
-            {loading && type !== 'checkbox' &&
-              <span className="translate-y-[1.5px]">
-                <Spinner />
-              </span>}
-          </label>}
-        <div className="flex gap-2">
-          {selectOptions
-            ? <SelectMenu
+            spellCheck={spellCheck}
+            autoCapitalize={!capitalize ? 'off' : undefined}
+          />
+        ) : /* Checkbox */
+        type === 'checkbox' ? (
+          <div className="flex items-center gap-2">
+            <Checkbox
               id={id}
               name={id}
-              tabIndex={tabIndex}
-              className="w-full"
-              value={value}
-              onChange={onChange}
-              options={selectOptions}
-              defaultOptionLabel={selectOptionsDefaultLabel}
-              error={error}
-              readOnly={readOnly || pending || loading}
+              checked={value === 'true'}
+              onCheckedChange={(checked) => 
+                onChange?.(checked ? 'true' : 'false')
+              }
+              disabled={isDisabled}
+              className={cn(hasError && 'border-destructive')}
             />
-            : tagOptions
-              ? <TagInput
-                id={id}
-                name={id}
-                value={value}
-                options={tagOptions}
-                defaultIcon={tagOptionsDefaultIcon}
-                onChange={onChange}
-                showMenuOnDelete={tagOptionsLimit === 1}
-                className={clsx(Boolean(error) && 'error')}
-                readOnly={readOnly || pending || loading}
-                placeholder={placeholder}
-                limit={tagOptionsLimit}
-                limitValidationMessage={tagOptionsLimitValidationMessage}
-              />
-              : type === 'textarea'
-                ? <textarea
-                  id={id}
-                  name={id}
-                  value={value}
-                  placeholder={placeholder}
-                  onChange={e => onChange?.(e.target.value)}
-                  readOnly={readOnly || pending || loading}
-                  spellCheck={spellCheck}
-                  autoCapitalize={!capitalize ? 'off' : undefined}
-                  className={clsx(
-                    'w-full h-24 resize-none',
-                    Boolean(error) && 'error',
-                  )}
-                />
-                : type === 'checkbox'
-                  ? <Checkbox
-                    ref={inputRef}
-                    accessory={loading && <Spinner
-                      className="translate-y-[0.5px]"
-                    />}
-                    {...inputProps}
-                  />
-                  : <input
-                    ref={inputRef}
-                    {...inputProps}
-                  />}
-          {accessory && <div>
+            {loading && <Spinner />}
+          </div>
+        ) : /* Regular Input */
+        (
+          <Input
+            ref={inputRef}
+            id={id}
+            name={id}
+            type={type}
+            value={value}
+            placeholder={placeholder}
+            onChange={e => onChange?.(e.target.value)}
+            disabled={isDisabled}
+            className={cn(hasError && 'border-destructive')}
+            spellCheck={spellCheck}
+            autoComplete="off"
+            autoCapitalize={!capitalize ? 'off' : undefined}
+            tabIndex={tabIndex}
+          />
+        )}
+
+        {accessory && (
+          <div className="flex items-center">
             {accessory}
-          </div>}
-        </div>
+          </div>
+        )}
       </div>
+    </div>
   );
-};
+}

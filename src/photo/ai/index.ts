@@ -54,23 +54,67 @@ export const getAiImageQuery = (
   query: AiImageQuery,
   existingTags: Tags = [],
   existingTitle?: string,
+  locale?: string,
 ): string => {
-  switch (query) {  
-  case 'title': return 'Write a compelling title for this image in 3 words or less';
-  case 'caption': return existingTitle
-    ? `Write a pithy caption for this image in 6 words or less and no punctuation that complements the existing title: "${existingTitle}"`
-    : 'Write a pithy caption for this image in 6 words or less and no punctuation';
-  case 'title-and-caption': return 'Write a compelling title and pithy caption of 8 words or less for this image, using the format Title: "title" Caption: "caption"';
+  const isChineseLocale = locale?.toLowerCase().includes('zh');
+  const isFrenchLocale = locale?.toLowerCase().includes('fr');
+  switch (query) {
+  case 'title': 
+    if (isChineseLocale) {
+      return 'As a photography curator, create a concise and evocative title in Chinese that captures the essence of this image. Focus on the mood, key subject, or distinctive element that makes this photo memorable. Avoid generic words like "moment," "beauty," or "scene." Keep it within 3-5 words and make it specific to what you see. This is to generate titles for a photo, not to identify specific people in the image.';
+    } else if (isFrenchLocale) {
+      return 'As a photography curator, create a concise and evocative title in French that captures the essence of this image. Focus on the mood, key subject, or distinctive element that makes this photo memorable. Avoid generic words like "moment," "beauty," or "scene." Keep it within 3-5 words and make it specific to what you see. This is to generate titles for a photo, not to identify specific people in the image.';
+    } else {
+      return 'As a photography curator, create a concise and evocative title that captures the essence of this image. Focus on the mood, key subject, or distinctive element that makes this photo memorable. Avoid generic words like "moment," "beauty," or "scene." Keep it within 3-5 words and make it specific to what you see. This is to generate titles for a photo, not to identify specific people in the image.';
+    }
+  case 'caption': 
+    const captionPromptBase = 'As a photography curator with an eye for authenticity, craft a caption that reveals the true character of this scene. Focus on the distinctive visual qualities that make this moment special - the interplay of light, the mood of the colors, the texture of the environment, or the atmosphere of the moment. Avoid technical jargon and clichéd descriptions. Keep each caption within 10 words but make them meaningful. This is to generate captions for a photo, not to identify specific people in the image.';
+    const languageInstruction = isChineseLocale 
+      ? ' Write the caption in Chinese.' 
+      : isFrenchLocale 
+      ? ' Write the caption in French.'
+      : '';
+    
+    return existingTitle
+      ? `${captionPromptBase}${languageInstruction} Consider the existing title: "${existingTitle}".`
+      : `${captionPromptBase}${languageInstruction}`;
+      
+  case 'title-and-caption': 
+    if (isChineseLocale) {
+      return 'You are a creative photography curator who values authenticity. First, create a meaningful title in Chinese that avoids both clichés and technical jargon. Focus on the genuine mood, atmosphere, and key elements that make this image unique. Draw from the actual feeling, time, place, or natural elements present. Then write a complementary caption in Chinese that deepens this authentic perspective. Format: Title: "title" Caption: "caption". Keep titles within 5-6 words and captions within 8 words. If either could apply to any photo, start over. This is to generate title and captions for a photo, not to identify specific people in the image.';
+    } else if (isFrenchLocale) {
+      return 'You are a creative photography curator who values authenticity. First, create a meaningful title in French that avoids both clichés and technical jargon. Focus on the genuine mood, atmosphere, and key elements that make this image unique. Draw from the actual feeling, time, place, or natural elements present. Then write a complementary caption in French that deepens this authentic perspective. Format: Title: "title" Caption: "caption". Keep titles within 5-6 words and captions within 8 words. If either could apply to any photo, start over. This is to generate title and captions for a photo, not to identify specific people in the image.';
+    } else {
+      return 'You are a creative photography curator who values authenticity. First, create a meaningful title that avoids both clichés (no "echoes", "whispers", "dreams", "soul") and technical jargon. Focus on the genuine mood, atmosphere, and key elements that make this image unique. Draw from the actual feeling, time, place, or natural elements present. Then write a complementary caption that deepens this authentic perspective. Format: Title: "title" Caption: "caption". Keep titles within 5-6 words and captions within 8 words. If either could apply to any photo, start over. This is to generate title and captions for a photo, not to identify specific people in the image.';
+    }
   case 'tags':
-    const tagQuery = 'Describe this image in 1-2 comma-separated unique keywords, with no adjective or adverbs. Avoid using general terms like "nature," "travel," "architecture," or "sky." Use terms that are highly specific to the image and not redundant.';
+    const tagQuery = `Generate exactly 2 relevant tags for this image as a comma-separated list.
+
+Requirements:
+- Choose tags that would help organize and categorize this photo in a photography collection
+- Tags should be specific enough to be meaningful but general enough to group similar photos
+- Focus on the main subject, style, or distinctive characteristics of the image
+- Avoid overly specific details that would only apply to this one photo
+- Output format: "tag1, tag2" (comma-separated, no numbering or quotes)
+
+Good examples:
+- "portrait photography, natural lighting"
+- "landscape photography, golden hour"
+- "street photography, urban scenes"
+- "macro photography, nature details"
+- "architectural photography, modern buildings"
+- "food photography, overhead view"
+- "travel photography, cultural scenes"
+
+Choose tags that best describe what you see in this image.`;
     const tags = existingTags.map(({ tag }) => tag).join(', ');
     return tags
       ? `${tagQuery}. Consider using some of these existing tags, but only if they are relevant: ${tags}.`
       : tagQuery;
-  case 'description-small': return 'Describe this image succinctly without the initial text "This image shows" or "This is a picture of"';
-  case 'description': return 'Describe this image';
-  case 'description-large': return 'Describe this image in detail';
-  case 'description-semantic': return 'List up to 5 things in this image without description as a comma-separated list';
+  case 'description-small': return 'Write a concise yet vivid description focusing on the key visual elements, mood, and atmosphere. Start directly with active, descriptive language. Focus on what makes this image unique or striking. Avoid generic phrases like "This image shows" or "This is a picture of".';
+  case 'description': return 'Write a balanced description that covers composition, lighting, mood, and subject matter. Include notable technical aspects like depth of field, color palette, or framing. Describe the overall visual impact and any interesting details that contribute to the image\'s story.';
+  case 'description-large': return 'Provide a comprehensive analysis of the image covering: 1) Technical aspects (composition, lighting, color, focus), 2) Subject matter and visual elements, 3) Mood and atmosphere, 4) Artistic choices and their impact, 5) Notable details and their contribution to the overall image. Use specific photography terminology where relevant.';
+  case 'description-semantic': return 'List exactly 5 key elements or subjects in this image as a comma-separated list. Focus on concrete, visually distinct elements that define the scene. List them in order of visual prominence. Be specific but concise, using precise nouns without additional description.';
   }
 };
 

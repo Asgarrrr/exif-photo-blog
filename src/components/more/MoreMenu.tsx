@@ -66,6 +66,7 @@ export default function MoreMenu({
         <button
           type="button"
           className={clsx(
+            "bg-transparent",
             'px-1 py-[3px]',
             'min-h-0 border-none shadow-none',
             'hover:bg-neutral-100 active:bg-neutral-200/75',

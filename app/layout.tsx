@@ -16,6 +16,7 @@ import ToasterWithThemes from '@/toast/ToasterWithThemes';
 import PhotoEscapeHandler from '@/photo/PhotoEscapeHandler';
 import { Metadata } from 'next/types';
 import { ThemeProvider } from 'next-themes';
+import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import Nav from '@/app/Nav';
 import Footer from '@/app/Footer';
 import CommandK from '@/cmdk/CommandK';
@@ -77,6 +78,16 @@ export const metadata: Metadata = {
   },
 };
 
+const geistSans = Geist({
+	variable: "--font-geist-sans",
+	subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+	variable: "--font-geist-mono",
+	subsets: ["latin"],
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -85,12 +96,12 @@ export default function RootLayout({
   return (
     <html
       lang={HTML_LANG}
-      // Suppress hydration errors due to next-themes behavior
+      className={`${ geistSans.variable } ${ geistMono.variable }  antialiased`}
       suppressHydrationWarning
     >
       <body className={clsx(
         // Center on large screens
-        '3xl:flex flex-col items-center',
+        '3xl:flex flex-col items-center min-w-full dark:bg-neutral-950',
       )}>
         <AppStateProvider areAdminDebugToolsEnabled={ADMIN_DEBUG_TOOLS_ENABLED}>
           <AppTextProvider>

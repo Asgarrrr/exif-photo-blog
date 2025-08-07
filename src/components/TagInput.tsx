@@ -268,164 +268,167 @@ export default function TagInput({
   }, [options, defaultIcon]);
 
   return (
-    <div
-      ref={containerRef}
-      className="flex flex-col w-full group"
-      onFocus={() => setShouldShowMenu(true)}
-      onBlur={e => {
-        if (!e.currentTarget.contains(e.relatedTarget)) {
-          // Capture text on blur if limit not yet reached
-          if (inputText && !hasReachedLimit) {
-            addOptions([inputText]);
-          } else {
-            setInputText('');
-          }
-          hideMenu();
-        }
-      }}
-    >
-      <div
-        id={ARIA_ID_TAG_CONTROL}
-        role="region"
-        aria-live="polite"
-        className="sr-only mb-3 text-dim"
-      >
-        {selectedOptions.length === 0
-          ? 'No tags selected'
-          : selectedOptions.join(', ') +
-            ` tag${selectedOptions.length !== 1 ? 's' : ''} selected`}
-      </div>
-      <div
-        aria-controls={ARIA_ID_TAG_CONTROL}
-        className={clsx(
-          className,
-          'w-full control px-2! py-2!',
-          '-outline-offset-2 outline-blue-600',
-          'group-focus-within:outline-2 ',
-          'inline-flex flex-wrap items-center gap-2',
-          readOnly && 'cursor-not-allowed',
-          readOnly && 'bg-neutral-100 dark:bg-neutral-900 dark:text-neutral-400',
-        )}
-      >
-        {/* Selected Options */}
-        {selectedOptions
-          .filter(Boolean)
-          .map(option =>
-            <span
-              key={option}
-              role="button"
-              aria-label={`Remove tag "${option}"`}
-              className={clsx(
-                'inline-flex items-center gap-2 min-w-0',
-                'text-main',
-                'cursor-pointer select-none',
-                'whitespace-nowrap',
-                'px-1.5 py-0.5',
-                'bg-neutral-200/60 dark:bg-neutral-800',
-                'active:bg-neutral-200 dark:active:bg-neutral-900',
-                'rounded-xs',
-              )}
-              onClick={() => removeOption(option)}
-            >
-              {renderTag(option)}
-            </span>)}
-        <input
-          id={id}
-          ref={inputRef}
-          type="text"
-          className={clsx(
-            'grow min-w-0! p-0! -my-2',
-            'outline-hidden border-none',
-            'placeholder:text-dim placeholder:text-[14px]',
-            'placeholder:translate-x-[2px]',
-            'placeholder:translate-y-[-1.5px]',
-          )}
-          size={10}
-          value={inputText}
-          onChange={e => setInputText(e.target.value)}
-          autoComplete="off"
-          autoCapitalize="off"
-          readOnly={readOnly}
-          placeholder={selectedOptions.length === 0 ? placeholder : undefined}
-          onFocus={() => setSelectedOptionIndex(undefined)}
-          onClick={() => {
-            if (!shouldShowMenu) { setShouldShowMenu(true); }
-          }}
-          aria-autocomplete="list"
-          aria-expanded={shouldShowMenu}
-          aria-haspopup="true"
-          aria-controls={shouldShowMenu ? ARIA_ID_TAG_OPTIONS : undefined}
-          role="combobox"
-        />
-        <input type="hidden" name={name} value={value} />
-      </div>
-      <div className="relative">
-        {shouldShowMenu && optionsFiltered.length > 0 &&
-          <div
+		<div
+			ref={containerRef}
+			className="flex flex-col w-full group"
+			onFocus={() => setShouldShowMenu(true)}
+			onBlur={(e) => {
+				if (!e.currentTarget.contains(e.relatedTarget)) {
+					// Capture text on blur if limit not yet reached
+					if (inputText && !hasReachedLimit) {
+						addOptions([inputText]);
+					} else {
+						setInputText("");
+					}
+					hideMenu();
+				}
+			}}
+		>
+			<div
+				id={ARIA_ID_TAG_CONTROL}
+				role="region"
+				aria-live="polite"
+				className="sr-only mb-3 text-dim"
+			>
+				{selectedOptions.length === 0
+					? "No tags selected"
+					: selectedOptions.join(", ") +
+					  ` tag${selectedOptions.length !== 1 ? "s" : ""} selected`}
+			</div>
+			<div
+				aria-controls={ARIA_ID_TAG_CONTROL}
+				className={clsx(
+					className,
+					"w-full control px-2! py-2!",
+					"group-focus-within:outline-2 ",
+					"inline-flex flex-wrap items-center gap-2",
+					readOnly && "cursor-not-allowed",
+					readOnly && "bg-neutral-100 dark:bg-neutral-900 dark:text-neutral-400"
+				)}
+			>
+				{/* Selected Options */}
+				{selectedOptions.filter(Boolean).map((option) => (
+					<span
+						key={option}
+						role="button"
+						aria-label={`Remove tag "${option}"`}
+						className={clsx(
+							"inline-flex items-center gap-2 min-w-0",
+							"text-main",
+							"cursor-pointer select-none",
+							"whitespace-nowrap",
+							"px-1.5 py-0.5",
+							"bg-neutral-200/60 dark:bg-neutral-800",
+							"active:bg-neutral-200 dark:active:bg-neutral-900",
+							"rounded-xs"
+						)}
+						onClick={() => removeOption(option)}
+					>
+						{renderTag(option)}
+					</span>
+				))}
+				<input
+					id={id}
+					ref={inputRef}
+					type="text"
+					className={clsx(
+						"grow min-w-0! p-0! -my-2",
+						"outline-hidden border-none",
+						"placeholder:text-dim placeholder:text-[14px]",
+						"placeholder:translate-x-[2px]",
+						"placeholder:translate-y-[-1.5px]"
+					)}
+					size={10}
+					value={inputText}
+					onChange={(e) => setInputText(e.target.value)}
+					autoComplete="off"
+					autoCapitalize="off"
+					readOnly={readOnly}
+					placeholder={selectedOptions.length === 0 ? placeholder : undefined}
+					onFocus={() => setSelectedOptionIndex(undefined)}
+					onClick={() => {
+						if (!shouldShowMenu) {
+							setShouldShowMenu(true);
+						}
+					}}
+					aria-autocomplete="list"
+					aria-expanded={shouldShowMenu}
+					aria-haspopup="true"
+					aria-controls={shouldShowMenu ? ARIA_ID_TAG_OPTIONS : undefined}
+					role="combobox"
+				/>
+				<input type="hidden" name={name} value={value} />
+			</div>
+			<div className="relative">
+				{shouldShowMenu && optionsFiltered.length > 0 && (
+					<div
             className={clsx(
-              'component-surface',
-              'absolute top-3 w-full px-1.5 py-1.5',
-              'max-h-[8rem] overflow-y-auto flex flex-col',
-              'shadow-lg dark:shadow-xl',
-            )}
-          >
-            <MaskedScroll
-              id={ARIA_ID_TAG_OPTIONS}
-              role="listbox"
-              className="flex flex-col gap-y-1 text-xl"
-              ref={optionsRef}
-              fadeSize={16}
-            >
-              {/* Menu Options */}
-              {optionsFiltered.map(({
-                value,
-                annotation,
-                annotationAria,
-              }, index) =>
-                <div
-                  key={value}
-                  role="option"
-                  aria-selected={
-                    index === selectedOptionIndex ||
-                    (index === 0 && selectedOptionIndex === undefined)
-                  }
-                  tabIndex={0}
-                  className={clsx(
-                    'group flex items-center gap-2',
-                    'px-1.5 py-1 rounded-sm',
-                    'text-base select-none',
-                    hasReachedLimit ? 'cursor-not-allowed' : 'cursor-pointer',
-                    'hover:bg-neutral-100 dark:hover:bg-neutral-800',
-                    !hasReachedLimit &&
-                      'active:bg-neutral-50 dark:active:bg-neutral-900',
-                    'focus:bg-neutral-100 dark:focus:bg-neutral-800',
-                    index === 0 && selectedOptionIndex === undefined &&
-                      'bg-neutral-100 dark:bg-neutral-800',
-                    'outline-hidden',
-                  )}
-                  onClick={() => {
-                    if (!hasReachedLimit) {
-                      addOptions([value]);
-                    }
-                  }}
-                  onFocus={() => setSelectedOptionIndex(index)}
-                >
-                  <span className="grow inline-flex items-center gap-2 min-w-0">
-                    {renderTag(value)}
-                  </span>
-                  {annotation &&
-                    <span
-                      className="whitespace-nowrap text-dim text-sm"
-                      aria-label={annotationAria}
-                    >
-                      <span aria-hidden={Boolean(annotationAria)}>
-                        {annotation}
-                      </span>
-                    </span>}
-                </div>)}
-            </MaskedScroll>
-          </div>}
-      </div>
-    </div>
-  );
+              "z-10",
+							"component-surface bg-white dark:bg-neutral-950",
+							"absolute top-3 w-full px-1.5 py-1.5",
+							"max-h-[18rem] overflow-y-auto flex flex-col",
+							"shadow-lg dark:shadow-xl"
+						)}
+					>
+						<MaskedScroll
+							id={ARIA_ID_TAG_OPTIONS}
+							role="listbox"
+							className="flex flex-col gap-y-1 text-xl"
+							ref={optionsRef}
+							fadeSize={16}
+						>
+							{/* Menu Options */}
+							{optionsFiltered.map(
+								({ value, annotation, annotationAria }, index) => (
+									<div
+										key={value}
+										role="option"
+										aria-selected={
+											index === selectedOptionIndex ||
+											(index === 0 && selectedOptionIndex === undefined)
+										}
+										tabIndex={0}
+										className={clsx(
+											"group flex items-center gap-2",
+											"px-1.5 py-1 rounded-sm",
+											"text-base select-none",
+											hasReachedLimit ? "cursor-not-allowed" : "cursor-pointer",
+											"hover:bg-neutral-100 dark:hover:bg-neutral-800",
+											!hasReachedLimit &&
+												"active:bg-neutral-50 dark:active:bg-neutral-900",
+											"focus:bg-neutral-100 dark:focus:bg-neutral-800",
+											index === 0 &&
+												selectedOptionIndex === undefined &&
+												"bg-neutral-100 dark:bg-neutral-800",
+											"outline-hidden"
+										)}
+										onClick={() => {
+											if (!hasReachedLimit) {
+												addOptions([value]);
+											}
+										}}
+										onFocus={() => setSelectedOptionIndex(index)}
+									>
+										<span className="grow inline-flex items-center gap-2 min-w-0">
+											{renderTag(value)}
+										</span>
+										{annotation && (
+											<span
+												className="whitespace-nowrap text-dim text-sm"
+												aria-label={annotationAria}
+											>
+												<span aria-hidden={Boolean(annotationAria)}>
+													{annotation}
+												</span>
+											</span>
+										)}
+									</div>
+								)
+							)}
+						</MaskedScroll>
+					</div>
+				)}
+			</div>
+		</div>
+	);
 }

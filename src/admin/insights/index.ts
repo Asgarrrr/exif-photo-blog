@@ -14,7 +14,6 @@ import {
   AI_CONTENT_GENERATION_ENABLED,
 } from '@/app/config';
 import { PhotoDateRange } from '@/photo';
-import { getGitHubMeta } from '@/platforms/github';
 
 const BASIC_PHOTO_INSTALLATION_COUNT = 32;
 
@@ -41,7 +40,6 @@ const _INSIGHTS_LIBRARY = [
 type AdminAppInsightLibrary = typeof _INSIGHTS_LIBRARY[number];
 
 export type AdminAppInsight =
-  AdminAppInsightCode |
   AdminAppInsightRecommendation |
   AdminAppInsightLibrary;
 
@@ -65,21 +63,9 @@ export interface PhotoStats {
   dateRange?: PhotoDateRange
 }
 
-export const getGitHubMetaForCurrentApp = () =>
-  (IS_VERCEL_GIT_PROVIDER_GITHUB || IS_DEVELOPMENT)
-    ? getGitHubMeta({
-      owner: VERCEL_GIT_REPO_OWNER,
-      repo: VERCEL_GIT_REPO_SLUG,
-      branch: VERCEL_GIT_BRANCH,
-      commit: VERCEL_GIT_COMMIT_SHA,
-    })
-    : undefined;
-
 export const getSignificantInsights = ({
-  codeMeta,
   photosCountNeedSync,
 }: {
-  codeMeta: Awaited<ReturnType<typeof getGitHubMetaForCurrentApp>>
   photosCountNeedSync: number
 }) => {
   const {
@@ -89,7 +75,6 @@ export const getSignificantInsights = ({
   } = APP_CONFIGURATION;
 
   return {
-    forkBehind: Boolean(codeMeta?.isBehind),
     noAiRateLimiting: isAiTextGenerationEnabled && !hasRedisStorage,
     noConfiguredDomain: !hasDomain,
     photosNeedSync: Boolean(photosCountNeedSync),
@@ -97,18 +82,15 @@ export const getSignificantInsights = ({
 };
 
 export const indicatorStatusForSignificantInsights = ({
-  codeMeta,
   photosCountNeedSync,
 }: Parameters<typeof getSignificantInsights>[0] & {
   photosCountNeedSync: number
 }) => {
   const insights = getSignificantInsights({
-    codeMeta,
     photosCountNeedSync,
   });
 
   const {
-    forkBehind,
     noAiRateLimiting,
     noConfiguredDomain,
     photosNeedSync,
@@ -116,13 +98,12 @@ export const indicatorStatusForSignificantInsights = ({
 
   if (noAiRateLimiting || noConfiguredDomain) {
     return 'yellow';
-  } else if (forkBehind || photosNeedSync) {
+  } else if (photosNeedSync) {
     return 'blue';
   }
 };
 
 export const getAllInsights = ({
-  codeMeta,
   photosCountNeedSync,
   photosCount,
   photosCountPortrait,
@@ -130,8 +111,7 @@ export const getAllInsights = ({
   photosCount: number
   photosCountPortrait: number
 }) => ({
-  ...getSignificantInsights({ codeMeta, photosCountNeedSync }),
-  noFork: !codeMeta?.isForkedFromBase && !codeMeta?.isBaseRepo,
+  ...getSignificantInsights({photosCountNeedSync }),
   noAi: !AI_CONTENT_GENERATION_ENABLED,
   noConfiguredMeta:
     !IS_META_TITLE_CONFIGURED ||
