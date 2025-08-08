@@ -7,6 +7,23 @@ import {
 } from '@/utility/date';
 import { roundToNumber } from '@/utility/number';
 import { convertStringToArray, parameterize } from '@/utility/string';
+
+// Helper function to safely parse numeric values from form data
+const safeParseInt = (value?: string): number | undefined => {
+  if (!value || value === 'undefined' || value === 'null') {
+    return undefined;
+  }
+  const parsed = parseInt(value);
+  return isNaN(parsed) ? undefined : parsed;
+};
+
+const safeParseFloat = (value?: string): number | undefined => {
+  if (!value || value === 'undefined' || value === 'null') {
+    return undefined;
+  }
+  const parsed = parseFloat(value);
+  return isNaN(parsed) ? undefined : parsed;
+};
 import { generateNanoid } from '@/utility/nanoid';
 import { TAG_FAVS, getValidationMessageForTags } from '@/tag';
 import { MAKE_FUJIFILM } from '@/platforms/fujifilm';
@@ -332,36 +349,16 @@ export const convertFormDataToPhotoDbInsert = (
     aspectRatio: photoForm.aspectRatio
       ? roundToNumber(parseFloat(photoForm.aspectRatio), 6)
       : DEFAULT_ASPECT_RATIO,
-    focalLength: photoForm.focalLength
-      ? parseInt(photoForm.focalLength)
-      : undefined,
-    focalLengthIn35MmFormat: photoForm.focalLengthIn35MmFormat
-      ? parseInt(photoForm.focalLengthIn35MmFormat)
-      : undefined,
-    fNumber: photoForm.fNumber
-      ? parseFloat(photoForm.fNumber)
-      : undefined,
-    latitude: photoForm.latitude
-      ? parseFloat(photoForm.latitude)
-      : undefined,
-    longitude: photoForm.longitude
-      ? parseFloat(photoForm.longitude)
-      : undefined,
-    iso: photoForm.iso
-      ? parseInt(photoForm.iso)
-      : undefined,
-    exposureTime: photoForm.exposureTime
-      ? parseFloat(photoForm.exposureTime)
-      : undefined,
-    exposureCompensation: photoForm.exposureCompensation
-      ? parseFloat(photoForm.exposureCompensation)
-      : undefined,
-    colorSort: photoForm.colorSort
-      ? parseInt(photoForm.colorSort)
-      : undefined,
-    priorityOrder: photoForm.priorityOrder
-      ? parseFloat(photoForm.priorityOrder)
-      : undefined,
+    focalLength: safeParseInt(photoForm.focalLength),
+    focalLengthIn35MmFormat: safeParseInt(photoForm.focalLengthIn35MmFormat),
+    fNumber: safeParseFloat(photoForm.fNumber),
+    latitude: safeParseFloat(photoForm.latitude),
+    longitude: safeParseFloat(photoForm.longitude),
+    iso: safeParseInt(photoForm.iso),
+    exposureTime: safeParseFloat(photoForm.exposureTime),
+    exposureCompensation: safeParseFloat(photoForm.exposureCompensation),
+    colorSort: safeParseInt(photoForm.colorSort),
+    priorityOrder: safeParseFloat(photoForm.priorityOrder),
     excludeFromFeeds: photoForm.excludeFromFeeds === 'true',
     hidden: photoForm.hidden === 'true',
     ...generateTakenAtFields(photoForm),

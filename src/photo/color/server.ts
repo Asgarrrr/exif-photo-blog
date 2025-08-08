@@ -110,7 +110,7 @@ export const getColorFieldsForPhotoForm = async (
   const { colorSort, ...rest } =
     await getColorFieldsForPhotoDbInsert(...args) ?? {};
   return {
-    colorSort: `${colorSort}`,
+    colorSort: colorSort !== undefined ? `${colorSort}` : undefined,
     ...rest,
   };
 };
