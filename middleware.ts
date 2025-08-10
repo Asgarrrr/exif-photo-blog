@@ -35,13 +35,13 @@ export default function middleware(req: NextRequest, res:NextResponse) {
   }
 
   return auth(
-    req as unknown as NextApiRequest,
-    res as unknown as NextApiResponse,
+		req as unknown as NextApiRequest,
+		res as unknown as NextApiResponse,
   );
 }
 
 export const config = {
-  // Excludes:
+  //  Excludes:
   // - /api + /api/auth*
   // - /_next/static*
   // - /_next/image*
@@ -53,6 +53,8 @@ export const config = {
   // - /template-image
   // - /template-image-tight
   // - /template-url
-  // eslint-disable-next-line max-len
-  matcher: ['/((?!api$|api/auth|_next/static|_next/image|favicon.ico$|favicons/|grid$|full$|home-image$|template-image$|template-image-tight$|template-url$|$).*)'],
+	 
+  matcher: [
+    '/((?!api$|api/auth|_next/static|_next/image|favicon.ico$|favicons/|grid$|full$|home-image$|template-image$|template-image-tight$|template-url$|$).*)',
+  ],
 };
