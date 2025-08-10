@@ -12,24 +12,25 @@ import {
 
 export default function middleware(req: NextRequest, res:NextResponse) {
   const pathname = req.nextUrl.pathname;
+  const baseUrl = req.nextUrl.origin || req.url;
 
   if (pathname === PATH_ADMIN) {
-    return NextResponse.redirect(new URL(PATH_ADMIN_PHOTOS, req.url));
+    return NextResponse.redirect(new URL(PATH_ADMIN_PHOTOS, baseUrl));
   } else if (pathname === PATH_OG) {
-    return NextResponse.redirect(new URL(PATH_OG_SAMPLE, req.url));
+    return NextResponse.redirect(new URL(PATH_OG_SAMPLE, baseUrl));
   } else if (/^\/photos\/(.)+$/.test(pathname)) {
     // Accept /photos/* paths, but serve /p/*
     const matches = pathname.match(/^\/photos\/(.+)$/);
     return NextResponse.rewrite(new URL(
       `${PREFIX_PHOTO}/${matches?.[1]}`,
-      req.url,
+      baseUrl,
     ));
   } else if (/^\/t\/(.)+$/.test(pathname)) {
     // Accept /t/* paths, but serve /tag/*
     const matches = pathname.match(/^\/t\/(.+)$/);
     return NextResponse.rewrite(new URL(
       `${PREFIX_TAG}/${matches?.[1]}`,
-      req.url,
+      baseUrl,
     ));
   }
 
