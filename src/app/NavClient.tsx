@@ -2,7 +2,7 @@
 
 import { clsx } from 'clsx/lite';
 import { usePathname } from 'next/navigation';
-import Link from 'next/link';
+import OptimizedLink from '@/components/OptimizedLink';
 import AppGrid from '../components/AppGrid';
 import AppViewSwitcher, { SwitcherSelection } from '@/app/AppViewSwitcher';
 import {
@@ -55,7 +55,12 @@ export default function NavClient({
     linkOrAction: string | (() => void),
   ) =>
     typeof linkOrAction === 'string'
-      ? <Link href={linkOrAction}>{text}</Link>
+      ? <OptimizedLink 
+          href={linkOrAction} 
+          prefetchStrategy="hover"
+        >
+          {text}
+        </OptimizedLink>
       : <button onClick={linkOrAction} type="button">{text}</button>;
 
   const switcherSelectionForPath = (): SwitcherSelection | undefined => {

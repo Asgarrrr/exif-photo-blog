@@ -5,10 +5,9 @@ import {
 } from '.';
 import { PhotoSetCategory } from '../category';
 import ImageSmall from '@/components/image/ImageSmall';
-import Link from 'next/link';
+import OptimizedLink from '@/components/OptimizedLink';
 import { clsx } from 'clsx/lite';
 import { pathForPhoto } from '@/app/path';
-import { SHOULD_PREFETCH_ALL_LINKS } from '@/app/config';
 import { useRef } from 'react';
 import useVisible from '@/utility/useVisible';
 
@@ -16,14 +15,14 @@ export default function PhotoSmall({
   photo,
   selected,
   className,
-  prefetch = SHOULD_PREFETCH_ALL_LINKS,
+  prefetchStrategy = 'none',
   onVisible,
   ...categories
 }: {
   photo: Photo
   selected?: boolean
   className?: string
-  prefetch?: boolean
+  prefetchStrategy?: 'none' | 'hover' | 'viewport' | 'intent'
   onVisible?: () => void
 } & PhotoSetCategory) {
   const ref = useRef<HTMLAnchorElement>(null);
@@ -31,7 +30,7 @@ export default function PhotoSmall({
   useVisible({ ref, onVisible });
 
   return (
-    <Link
+    <OptimizedLink
       ref={ref}
       href={pathForPhoto({ photo, ...categories })}
       className={clsx(
@@ -42,7 +41,7 @@ export default function PhotoSmall({
         'rounded-[3px] overflow-hidden',
         'border-main',
       )}
-      prefetch={prefetch}
+      prefetchStrategy={prefetchStrategy}
     >
       <ImageSmall
         src={photo.url}
@@ -51,6 +50,6 @@ export default function PhotoSmall({
         blurCompatibilityMode={doesPhotoNeedBlurCompatibility(photo)}
         alt={altTextForPhoto(photo)}
       />
-    </Link>
+    </OptimizedLink>
   );
 };

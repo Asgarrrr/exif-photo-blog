@@ -13,7 +13,7 @@ import { parseChromaCutoff, parseStartingHue } from '@/photo/color/sort';
 
 // HARD-CODED GLOBAL CONFIGURATION
 
-export const SHOULD_PREFETCH_ALL_LINKS: boolean | undefined = undefined;
+export const SHOULD_PREFETCH_ALL_LINKS: boolean | undefined = false;
 
 // TEMPLATE META
 
